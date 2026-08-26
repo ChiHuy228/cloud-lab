@@ -1,0 +1,211 @@
+/* mern-demo/client/src/App.css */
+.app-container {
+  background-color: #f1f5f9;
+  min-height: 100vh;
+  padding: 40px 20px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 35px;
+}
+
+.main-title {
+  font-size: 32px;
+  color: #1e3a8a;
+  font-weight: 800;
+  margin: 0 0 8px 0;
+}
+
+.sub-title {
+  color: #64748b;
+  font-size: 15px;
+  margin: 0;
+}
+
+.content-layout {
+  display: flex;
+  gap: 24px;
+  max-width: 1100px;
+  margin: 0 auto;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+.form-card {
+  background-color: #ffffff;
+  border-radius: 16px;
+  padding: 28px;
+  width: 320px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+  flex-shrink: 0;
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.icon {
+  color: #2563eb;
+  font-size: 20px;
+}
+
+.form-title {
+  font-size: 18px;
+  color: #0f172a;
+  margin: 0;
+  font-weight: 700;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.label {
+  font-size: 13px;
+  color: #475569;
+  font-weight: 600;
+}
+
+.input {
+  padding: 12px;
+  background-color: #334155;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  outline: none;
+}
+
+.input::placeholder {
+  color: #94a3b8;
+}
+
+.submit-btn {
+  background-color: #2563eb;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  padding: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 8px;
+}
+
+.list-card {
+  background-color: #ffffff;
+  border-radius: 16px;
+  padding: 28px;
+  flex: 1;
+  min-width: 450px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+
+.list-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.list-title-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.list-title-icon {
+  font-size: 20px;
+  color: #2ecc71;
+}
+
+.list-title {
+  font-size: 18px;
+  color: #0f172a;
+  margin: 0;
+  font-weight: 700;
+}
+
+.total-badge {
+  background-color: #eff6ff;
+  color: #2563eb;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.table-wrapper {
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid #f1f5f9;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.table-header-row {
+  background-color: #f8fafc;
+}
+
+.th {
+  padding: 14px 16px;
+  font-size: 12px;
+  color: #64748b;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.table-row {
+  transition: background-color 0.2s;
+}
+
+.table-row-even {
+  background-color: #f8fafc;
+}
+
+.table-row-odd {
+  background-color: #ffffff;
+}
+
+.td {
+  padding: 14px 16px;
+  font-size: 14px;
+  border-top: 1px solid #f1f5f9;
+}
+
+.td-id {
+  color: #2563eb;
+  font-weight: bold;
+}
+
+.td-name {
+  font-weight: 500;
+  color: #1e293b;
+}
+
+.td-email {
+  color: #64748b;
+}
+
+.empty-text {
+  text-align: center;
+  padding: 20px;
+  color: #666;
+}
