@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  # Câu 81: Khai báo Service backend
+  backend:
+    build: ./server
+    container_name: mern-backend-compose
+    # Câu 83: Cấu hình Port cho backend
+    ports:
+      - "5000:5000"
+    # Câu 85: Cấu hình biến môi trường MONGODB_URI
+    environment:
+      - MONGODB_URI=mongodb+srv://adminchihuyto:Huy220805@cluster0.jlofz1s.mongodb.net/cloud_lab?appName=Cluster0
+    networks:
+      - mern-net
+
+  # Câu 82: Khai báo Service frontend
+  frontend:
+    build: ./client
+    container_name: mern-frontend-compose
+    # Câu 84: Cấu hình Port cho frontend
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+    networks:
+      - mern-net
+
+networks:
+  mern-net:
+    driver: bridge

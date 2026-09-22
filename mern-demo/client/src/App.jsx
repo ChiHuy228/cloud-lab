@@ -1,8 +1,6 @@
-// mern-demo/client/src/App.jsx
 import { useState, useEffect } from 'react';
 import './App.css';
 
-// Tự động xử lý URL kết nối cho môi trường Codespaces
 const getApiUrl = () => {
   if (import.meta.env.VITE_API_URL) {
     return `${import.meta.env.VITE_API_URL.replace(/\/$/, '')}/api/students`;
@@ -19,17 +17,16 @@ const getApiUrl = () => {
 const API_URL = getApiUrl();
 
 function App() {
-  // === CÂU 48: SỬ DỤNG REACT STATE QUẢN LÝ DỮ LIỆU FORM ===
   const [students, setStudents] = useState([]);
   const [formData, setFormData] = useState({ studentId: '', name: '', email: '' });
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+  const [editId, setEditId] = useState(null); // Đã chuyển vào đúng vị trí
 
-  // === CÂU 47: GỌI API GET ĐỂ LẤY DANH SÁCH SINH VIÊN ===
   const fetchStudents = async () => {
     try {
       setLoading(true); setErrorMessage('');
-      const res = await fetch(API_URL); // Mặc định là GET
+      const res = await fetch(API_URL);
       if (!res.ok) throw new Error(`Lỗi tải danh sách (${res.status})`);
       const data = await res.json();
       if (Array.isArray(data)) setStudents(data);
@@ -46,20 +43,47 @@ function App() {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  // === CÂU 49: GỬI DỮ LIỆU TỪ REACT ĐẾN API POST ===
+  // Đã khôi phục và cập nhật hàm handleSubmit
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       setErrorMessage('');
-      const res = await fetch(API_URL, {
-        method: 'POST', // Sử dụng HTTP Method POST
+      const method = editId ? 'PUT' : 'POST';
+      const url = editId ? `${API_URL}/${editId}` : API_URL;
+
+      const res = await fetch(url, {
+        method: method,
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData)
       });
-      if (!res.ok) throw new Error(`Lỗi thêm sinh viên (${res.status})`);
+      
+      if (!res.ok) throw new Error(`Lỗi lưu sinh viên (${res.status})`);
       
       setFormData({ studentId: '', name: '', email: '' });
-      await fetchStudents(); // Refresh lại danh sách
+      setEditId(null);
+      await fetchStudents();
+    } catch (error) {
+      setErrorMessage(error.message);
+    }
+  };
+
+  const handleEditClick = (student) => {
+    setFormData({ studentId: student.studentId, name: student.name, email: student.email });
+    setEditId(student._id);
+  };
+
+  const handleCancelEdit = () => {
+    setFormData({ studentId: '', name: '', email: '' });
+    setEditId(null);
+  };
+
+  const handleDelete = async (id) => {
+    if (!window.confirm("Bạn có chắc muốn xóa sinh viên này?")) return;
+    try {
+      setErrorMessage('');
+      const res = await fetch(`${API_URL}/${id}`, { method: 'DELETE' });
+      if (!res.ok) throw new Error(`Lỗi xóa sinh viên (${res.status})`);
+      await fetchStudents();
     } catch (error) {
       setErrorMessage(error.message);
     }
@@ -73,10 +97,12 @@ function App() {
       </header>
 
       <div className="content-layout">
-        {/* === CÂU 48: FORM NHẬP MSSV, HỌ TÊN VÀ EMAIL === */}
         <div className="form-card">
           <div className="card-header">
-            <span className="icon">👤</span><h2 className="form-title">Thêm Sinh Viên Mới</h2>
+            <span className="icon">{editId ? '✏️' : '👤'}</span>
+            <h2 className="form-title">
+              {editId ? 'Cập Nhật Sinh Viên' : 'Thêm Sinh Viên Mới'}
+            </h2>
           </div>
           <form onSubmit={handleSubmit} className="form">
             <div className="input-group">
@@ -91,11 +117,17 @@ function App() {
               <label className="label">Email sinh viên</label>
               <input type="email" name="email" value={formData.email} onChange={handleChange} required className="input" />
             </div>
-            <button type="submit" className="submit-btn">Thêm Vào Danh Sách</button>
+            <button type="submit" className="submit-btn">
+              {editId ? 'Lưu Thay Đổi' : 'Thêm Vào Danh Sách'}
+            </button>
+            {editId && (
+              <button type="button" className="cancel-btn" onClick={handleCancelEdit}>
+                Hủy Sửa
+              </button>
+            )}
           </form>
         </div>
 
-        {/* === CÂU 47: GIAO DIỆN HIỂN THỊ DANH SÁCH TỪ BACKEND === */}
         <div className="list-card">
           <div className="list-card-header">
             <div className="list-title-wrapper">
@@ -108,6 +140,7 @@ function App() {
               <thead>
                 <tr className="table-header-row">
                   <th className="th">MSSV</th><th className="th">HỌ TÊN</th><th className="th">EMAIL</th>
+                  <th className="th">HÀNH ĐỘNG</th>
                 </tr>
               </thead>
               <tbody>
@@ -116,6 +149,10 @@ function App() {
                     <td className="td td-id">{sv.studentId}</td>
                     <td className="td td-name">{sv.name}</td>
                     <td className="td td-email">{sv.email}</td>
+                    <td className="td action-td">
+                      <button onClick={() => handleEditClick(sv)} className="action-btn edit-btn">Sửa</button>
+                      <button onClick={() => handleDelete(sv._id)} className="action-btn delete-btn">Xóa</button>
+                    </td>
                   </tr>
                 ))}
               </tbody>
