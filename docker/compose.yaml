@@ -1,0 +1,5 @@
+services:
+  frontend:
+    image: tochihuy/mern-frontend:2.0
+    ports:
+      - "3000:3000"

@@ -68,7 +68,7 @@ function App() {
   return (
     <div className="app-container">
       <header className="header">
-        <h1 className="main-title">Hệ Thống Quản Lý Sinh Viên</h1>
+        <h1 className="main-title">Hệ Thống Quản Lý Sinh Viên -  Version 2.0</h1>
         <p className="sub-title">Trường Đại học Công nghệ Cloud-Lab</p>
       </header>
 
